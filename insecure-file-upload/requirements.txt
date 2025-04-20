@@ -1,0 +1,4 @@
+Flask
+pydantic
+python_magic
+Werkzeug
