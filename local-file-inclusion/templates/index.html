@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LFI Protection Demo</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        .header {
+            background-color: #3498db;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+        .endpoint {
+            background-color: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        .method-get {
+            color: #2ecc71;
+            font-weight: bold;
+        }
+        .method-post {
+            color: #e67e22;
+            font-weight: bold;
+        }
+        .demo-section {
+            background-color: #ecf0f1;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 30px 0;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"], select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 4px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            white-space: pre-wrap;
+        }
+        .protection-method {
+            margin: 30px 0;
+            padding: 15px;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+        }
+        .protection-method h3 {
+            margin-top: 0;
+            color: #3498db;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .danger {
+            background-color: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Local File Inclusion (LFI) Protection Demo</h1>
+        <p>This application demonstrates various methods to protect against Local File Inclusion vulnerabilities.</p>
+    </div>
+
+    <div class="warning">
+        <h3>⚠️ Security Warning</h3>
+        <p>This application contains intentionally vulnerable endpoints for educational purposes only. 
+        Do not deploy this in production environments without proper security measures.</p>
+    </div>
+
+    <h2>API Endpoints</h2>
+    
+    <div class="endpoint">
+        <h3><span class="method-get">GET</span> /vulnerable/lfi</h3>
+        <p><strong>Description:</strong> Intentionally vulnerable endpoint with no LFI protection.</p>
+        <p><strong>Parameters:</strong></p>
+        <ul>
+            <li><code>file</code> - Path to the file to read (no protection)</li>
+        </ul>
+        <p><strong>Example:</strong> <code>/vulnerable/lfi?file=../../etc/passwd</code></p>
+        <div class="danger">
+            <p><strong>⚠️ This endpoint is intentionally vulnerable!</strong> It demonstrates what happens when you directly use user input in file operations without any validation.</p>
+        </div>
+    </div>
+
+    <div class="endpoint">
+        <h3><span class="method-get">GET</span> /protected/lfi</h3>
+        <p><strong>Description:</strong> Protected endpoint with various LFI protection methods.</p>
+        <p><strong>Parameters:</strong></p>
+        <ul>
+            <li><code>file</code> - Path to the file to read</li>
+            <li><code>method</code> - Protection method to use (see table below)</li>
+        </ul>
+        <p><strong>Example:</strong> <code>/protected/lfi?file=readme.txt&method=allowlist</code></p>
+    </div>
+
+    <h2>Available Protection Methods</h2>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Method</th>
+                <th>Description</th>
+                <th>Security Level</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>vulnerable</code></td>
+                <td>No protection at all (same as /vulnerable/lfi)</td>
+                <td>❌ None</td>
+            </tr>
+            <tr>
+                <td><code>allowlist</code></td>
+                <td>Only allow files from a predefined whitelist</td>
+                <td>✅✅✅ Strong</td>
+            </tr>
+            <tr>
+                <td><code>extension_check</code></td>
+                <td>Only allow files with specific extensions (.txt, .log, .csv)</td>
+                <td>✅✅ Medium</td>
+            </tr>
+            <tr>
+                <td><code>path_traversal_block</code></td>
+                <td>Block path traversal attempts (../, .., etc.)</td>
+                <td>✅✅ Medium</td>
+            </tr>
+            <tr>
+                <td><code>absolute_path_required</code></td>
+                <td>Require files to be in specific allowed directories</td>
+                <td>✅✅✅ Strong</td>
+            </tr>
+            <tr>
+                <td><code>path_normalization</code></td>
+                <td>Normalize path and ensure it's within allowed directory</td>
+                <td>✅✅✅ Strong</td>
+            </tr>
+            <tr>
+                <td><code>blacklist</code></td>
+                <td>Block known dangerous patterns (weak protection)</td>
+                <td>✅ Weak</td>
+            </tr>
+            <tr>
+                <td><code>regex_validation</code></td>
+                <td>Validate filename with strict regex pattern</td>
+                <td>✅✅ Medium</td>
+            </tr>
+            <tr>
+                <td><code>mime_check</code></td>
+                <td>Check file MIME type before serving</td>
+                <td>✅✅ Medium</td>
+            </tr>
+            <tr>
+                <td><code>symlink_check</code></td>
+                <td>Check for symlinks pointing outside allowed directories</td>
+                <td>✅✅✅ Strong</td>
+            </tr>
+            <tr>
+                <td><code>file_size_limit</code></td>
+                <td>Enforce maximum file size limit (1MB)</td>
+                <td>✅✅ Medium</td>
+            </tr>
+            <tr>
+                <td><code>read_limit</code></td>
+                <td>Basic implementation of read limit</td>
+                <td>✅ Weak</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="demo-section">
+        <h2>Interactive Demo</h2>
+        
+        <div class="form-group">
+            <label for="endpoint-select">Endpoint:</label>
+            <select id="endpoint-select">
+                <option value="/vulnerable/lfi">/vulnerable/lfi (No protection)</option>
+                <option value="/protected/lfi">/protected/lfi (With protection)</option>
+            </select>
+        </div>
+        
+        <div class="form-group" id="method-group" style="display: none;">
+            <label for="method-select">Protection Method:</label>
+            <select id="method-select">
+                <option value="allowlist">Allowlist</option>
+                <option value="extension_check">Extension Check</option>
+                <option value="path_traversal_block">Path Traversal Block</option>
+                <option value="absolute_path_required">Absolute Path Required</option>
+                <option value="path_normalization">Path Normalization</option>
+                <option value="blacklist">Blacklist</option>
+                <option value="regex_validation">Regex Validation</option>
+                <option value="mime_check">MIME Check</option>
+                <option value="symlink_check">Symlink Check</option>
+                <option value="file_size_limit">File Size Limit</option>
+                <option value="read_limit">Read Limit</option>
+                <option value="vulnerable">Vulnerable (No protection)</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="file-input">File Path:</label>
+            <input type="text" id="file-input" placeholder="Enter file path (e.g., readme.txt)">
+            <p class="hint">Try safe files: readme.txt, notes.txt, data.csv</p>
+            <p class="hint">Try malicious paths: ../../etc/passwd, /etc/shadow</p>
+        </div>
+        
+        <button id="submit-btn">Test Endpoint</button>
+        
+        <div class="result" id="result" style="display: none;">
+            <h3>Result</h3>
+            <div id="result-content"></div>
+        </div>
+    </div>
+
+    <div class="protection-method">
+        <h3>Sample Safe Files</h3>
+        <p>The following files are created in the <code>allowed_files</code> directory for testing:</p>
+        <ul>
+            <li><code>readme.txt</code> - Sample readme file</li>
+            <li><code>notes.txt</code> - Sample notes file</li>
+            <li><code>data.csv</code> - Sample CSV data</li>
+        </ul>
+    </div>
+
+    <script>
+        document.getElementById('endpoint-select').addEventListener('change', function() {
+            const methodGroup = document.getElementById('method-group');
+            methodGroup.style.display = this.value === '/protected/lfi' ? 'block' : 'none';
+        });
+
+        document.getElementById('submit-btn').addEventListener('click', function() {
+            const endpoint = document.getElementById('endpoint-select').value;
+            const filePath = document.getElementById('file-input').value.trim();
+            
+            if (!filePath) {
+                alert('Please enter a file path');
+                return;
+            }
+            
+            let url = endpoint + '?file=' + encodeURIComponent(filePath);
+            
+            if (endpoint === '/protected/lfi') {
+                const method = document.getElementById('method-select').value;
+                url += '&method=' + method;
+            }
+            
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const resultDiv = document.getElementById('result');
+                    const contentDiv = document.getElementById('result-content');
+                    
+                    resultDiv.style.display = 'block';
+                    
+                    if (data.success) {
+                        contentDiv.innerHTML = `
+                            <p><strong>Success:</strong> File read successfully</p>
+                            <p><strong>Protection Method:</strong> ${data.protection_method}</p>
+                            <pre>${data.content}</pre>
+                        `;
+                    } else {
+                        contentDiv.innerHTML = `
+                            <p><strong>Error:</strong> ${data.error}</p>
+                            <p><strong>Protection Method:</strong> ${data.protection_method}</p>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    const resultDiv = document.getElementById('result');
+                    const contentDiv = document.getElementById('result-content');
+                    
+                    resultDiv.style.display = 'block';
+                    contentDiv.innerHTML = `<p><strong>Error:</strong> ${error.message}</p>`;
+                });
+        });
+    </script>
+</body>
+</html>
