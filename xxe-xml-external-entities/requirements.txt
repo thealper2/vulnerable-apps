@@ -1,0 +1,5 @@
+defusedxml
+Flask
+lxml
+lxml
+pydantic
