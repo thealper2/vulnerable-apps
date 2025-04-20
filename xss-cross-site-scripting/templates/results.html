@@ -1,0 +1,9 @@
+<div class="result-container">
+    <h3>XSS Protection: {{ xss_type }}</h3>
+    {% if plain_text %}
+        <pre>{{ result }}</pre>
+    {% else %}
+        <div class="result">{{ result | safe if xss_type == 'vulnerable' else result }}</div>
+    {% endif %}
+    <p><a href="/">Test another</a></p>
+</div>

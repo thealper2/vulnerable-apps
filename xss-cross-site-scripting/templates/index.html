@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>XSS Protection Demo</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .container { margin-bottom: 20px; }
+        textarea { width: 100%; height: 100px; }
+        button { padding: 10px 15px; background: #007bff; color: white; border: none; cursor: pointer; }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <h1>XSS Protection Methods Demo</h1>
+    
+    <div class="container">
+        <h2>Enter your input (try XSS payloads like &lt;script&gt;alert(1)&lt;/script&gt;)</h2>
+        <form id="xssForm">
+            <textarea name="input" id="userInput" required></textarea>
+            <select name="xss_type" required>
+                {% for xss_type in xss_types %}
+                <option value="{{ xss_type.value }}">{{ xss_type.value }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Test Protection</button>
+        </form>
+    </div>
+    
+    <div id="results"></div>
+    
+    <script>
+        document.getElementById('xssForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const endpoint = formData.get('xss_type');
+            
+            try {
+                const response = await fetch(`/${endpoint}`, {
+                    method: 'POST',
+                    body: new URLSearchParams(formData)
+                });
+                
+                if (endpoint === 'dom-protected') {
+                    // Safe DOM manipulation for dom-protected endpoint
+                    const data = await response.json();
+                    const resultsDiv = document.getElementById('results');
+                    resultsDiv.textContent = `Result: ${data.result} (${data.xss_type}) - ${data.message}`;
+                } else {
+                    // For other endpoints, we'll let the server render the HTML
+                    const html = await response.text();
+                    document.getElementById('results').innerHTML = html;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    </script>
+</body>
+</html>
