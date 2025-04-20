@@ -1,0 +1,7 @@
+Flask
+mysql_connector_repackaged
+peewee
+psycopg2_binary
+pydantic
+pytest
+SQLAlchemy

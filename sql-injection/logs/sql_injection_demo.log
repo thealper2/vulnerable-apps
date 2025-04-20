@@ -1,0 +1,27 @@
+2025-04-14 00:23:25,521 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-04-14 00:23:25,521 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-04-14 00:23:25,524 - werkzeug - INFO -  * Restarting with watchdog (inotify)
+2025-04-14 00:23:25,929 - werkzeug - WARNING -  * Debugger is active!
+2025-04-14 00:23:25,929 - werkzeug - INFO -  * Debugger PIN: 107-670-007
+2025-04-14 00:23:38,922 - werkzeug - INFO - 127.0.0.1 - - [14/Apr/2025 00:23:38] "POST /insecure/login_string_format HTTP/1.1" 200 -
+2025-04-14 00:23:45,397 - werkzeug - INFO - 127.0.0.1 - - [14/Apr/2025 00:23:45] "[31m[1mPOST /insecure/login_string_format HTTP/1.1[0m" 403 -
+2025-04-14 00:23:47,951 - werkzeug - INFO - 127.0.0.1 - - [14/Apr/2025 00:23:47] "POST /insecure/login_sqlite_concatenate HTTP/1.1" 200 -
+2025-04-14 00:23:51,730 - werkzeug - INFO - 127.0.0.1 - - [14/Apr/2025 00:23:51] "[31m[1mPOST /insecure/login_sqlite_concatenate HTTP/1.1[0m" 403 -
+2025-04-14 00:23:55,067 - werkzeug - INFO - 127.0.0.1 - - [14/Apr/2025 00:23:55] "POST /secure/login_parameterized HTTP/1.1" 200 -
+2025-04-14 00:23:57,814 - werkzeug - INFO - 127.0.0.1 - - [14/Apr/2025 00:23:57] "[31m[1mPOST /secure/login_parameterized HTTP/1.1[0m" 403 -
+2025-04-14 00:24:00,594 - werkzeug - INFO - 127.0.0.1 - - [14/Apr/2025 00:24:00] "POST /secure/login_orm HTTP/1.1" 200 -
+2025-04-14 00:24:05,858 - werkzeug - INFO - 127.0.0.1 - - [14/Apr/2025 00:24:05] "[31m[1mPOST /secure/login_orm HTTP/1.1[0m" 403 -
+2025-04-14 00:24:09,333 - werkzeug - INFO - 127.0.0.1 - - [14/Apr/2025 00:24:09] "POST /secure/login_peewee HTTP/1.1" 200 -
+2025-04-14 00:24:12,093 - werkzeug - INFO - 127.0.0.1 - - [14/Apr/2025 00:24:12] "POST /secure/login_peewee HTTP/1.1" 200 -
+2025-04-14 00:24:21,989 - werkzeug - INFO - 127.0.0.1 - - [14/Apr/2025 00:24:21] "POST /secure/login_input_validation HTTP/1.1" 200 -
+2025-04-14 00:24:24,440 - werkzeug - INFO - 127.0.0.1 - - [14/Apr/2025 00:24:24] "[31m[1mPOST /secure/login_input_validation HTTP/1.1[0m" 403 -
+2025-04-14 00:24:28,154 - werkzeug - INFO - 127.0.0.1 - - [14/Apr/2025 00:24:28] "POST /secure/login_stored_procedure HTTP/1.1" 200 -
+2025-04-14 00:24:31,531 - werkzeug - INFO - 127.0.0.1 - - [14/Apr/2025 00:24:31] "POST /secure/login_readonly_user HTTP/1.1" 200 -
+2025-04-14 00:24:35,909 - werkzeug - INFO - 127.0.0.1 - - [14/Apr/2025 00:24:35] "POST /secure/login_combined HTTP/1.1" 200 -
+2025-04-14 00:24:39,208 - werkzeug - INFO - 127.0.0.1 - - [14/Apr/2025 00:24:39] "[31m[1mPOST /secure/login_combined HTTP/1.1[0m" 403 -
+2025-04-14 00:24:43,459 - werkzeug - INFO - 127.0.0.1 - - [14/Apr/2025 00:24:43] "POST /secure/login_parameterized HTTP/1.1" 200 -
+2025-04-14 00:24:46,584 - werkzeug - INFO - 127.0.0.1 - - [14/Apr/2025 00:24:46] "[31m[1mPOST /secure/login_parameterized HTTP/1.1[0m" 403 -
+2025-04-14 00:24:49,594 - werkzeug - INFO - 127.0.0.1 - - [14/Apr/2025 00:24:49] "[31m[1mPOST /insecure/login_string_format HTTP/1.1[0m" 403 -
+2025-04-14 00:24:58,286 - werkzeug - INFO - 127.0.0.1 - - [14/Apr/2025 00:24:58] "[31m[1mPOST /insecure/login_string_format HTTP/1.1[0m" 403 -
+2025-04-14 00:25:04,235 - werkzeug - INFO - 127.0.0.1 - - [14/Apr/2025 00:25:04] "[31m[1mPOST /secure/login_combined HTTP/1.1[0m" 403 -
